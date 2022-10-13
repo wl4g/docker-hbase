@@ -13,12 +13,11 @@
 # limitations under the License.
 #
 
-FROM openjdk:12-jdk-alpine3.9
+FROM openjdk:8-jdk-alpine3.9
 LABEL maintainer="James Wong<jameswong1376@gmail.com>"
 
-RUN mkdir -p /opt/apps/ecm/
-
-COPY hbase-* /opt/apps/ecm/
+RUN mkdir -p /opt/apps/ecm/hbase/
+COPY materials/hbase-* /opt/apps/ecm/hbase/
 
 # 其中:bind-tools(dig), busybox-extras(telnet)
 RUN echo "http://mirrors.aliyun.com/alpine/v3.9/main" > /etc/apk/repositories \
@@ -26,4 +25,5 @@ RUN echo "http://mirrors.aliyun.com/alpine/v3.9/main" > /etc/apk/repositories \
 && apk update upgrade \
 && apk add --no-cache procps unzip curl bash bind-tools busybox-extras jq ethtool ip6tables iptables awall \
 && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+&& for f in $(ls /opt/apps/ecm/hbase/bin/); do ln -sf /opt/apps/ecm/hbase/bin/$f /bin/$f; done \
 && echo "Asia/Shanghai" > /etc/timezone
