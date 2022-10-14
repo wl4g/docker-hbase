@@ -24,10 +24,9 @@ export BUILD_IMAGE_VERSION="hbase-${HBASE_VERSION}-phoenix-${SHORT_PHOENIX_VERSI
 function print_help() {
   echo $"
 Usage: ./$(basename $0) [OPTIONS] [arg1] [arg2] ...
-    build                                    Build of hbase image.
-    push                                     Push the hbase image to repoistory.
-          <repo_uri>                           Push to repoistory uri. format: <registryUri>/<namespace>, default: docker.io/wl4g
-                                             for example: registry.cn-shenzhen.aliyuncs.com/wl4g-k8s)
+    build              Build of hbase image.
+    push               Push the hbase image to repoistory.
+          <repo_uri>   Push to repoistory uri. format: <registryUri>/<namespace>, e.g: registry.cn-shenzhen.aliyuncs.com/wl4g-k8s
 "
 }
 
