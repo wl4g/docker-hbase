@@ -18,12 +18,15 @@ LABEL maintainer="James Wong<jameswong1376@gmail.com>"
 
 RUN mkdir -p /opt/apps/ecm/hbase/
 COPY materials/hbase-* /opt/apps/ecm/hbase/
+COPY materials/phoenix-* /opt/apps/ecm/phoenix/
 
 # 其中:bind-tools(dig), busybox-extras(telnet)
 RUN echo "http://mirrors.aliyun.com/alpine/v3.9/main" > /etc/apk/repositories \
 && echo "http://mirrors.aliyun.com/alpine/v3.9/community" >> /etc/apk/repositories \
 && apk update upgrade \
-&& apk add --no-cache procps unzip curl bash bind-tools busybox-extras ethtool ip6tables iptables awall jruby \
+&& apk add --no-cache procps unzip curl bash bind-tools jruby python \
 && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+&& psf=$(ls opt/apps/ecm/phoenix/|grep phoenix-server-); ln -sf /opt/apps/ecm/phoenix/$psf /opt/apps/ecm/hbase/lib/$psf \
 && for f in $(ls /opt/apps/ecm/hbase/bin/); do ln -sf /opt/apps/ecm/hbase/bin/$f /bin/$f; done \
+&& for f in $(ls /opt/apps/ecm/phoenix/bin/); do ln -sf /opt/apps/ecm/phoenix/bin/$f /bin/$f; done \
 && echo "Asia/Shanghai" > /etc/timezone

@@ -58,8 +58,9 @@ function build_images() {
     cd ${BASE_DIR}/materials/ && tar -xvf phoenix-${LONG_PHOENIX_VERSION}-bin.tar.gz
   fi
 
-  echo "Copying phoenix-${LONG_PHOENIX_VERSION}-bin/phoenix-server-${LONG_PHOENIX_VERSION}.jar to hbase-${HBASE_VERSION}/lib/ ..."
-  cd ${BASE_DIR}/materials/ && cp phoenix-${LONG_PHOENIX_VERSION}-bin/phoenix-server-${LONG_PHOENIX_VERSION}.jar hbase-${HBASE_VERSION}/lib/
+  # Notice: Use link in Dockerfile.
+  # echo "Copying phoenix-${LONG_PHOENIX_VERSION}-bin/phoenix-server-${LONG_PHOENIX_VERSION}.jar to hbase-${HBASE_VERSION}/lib/ ..."
+  # cd ${BASE_DIR}/materials/ && cp phoenix-${LONG_PHOENIX_VERSION}-bin/phoenix-server-${LONG_PHOENIX_VERSION}.jar hbase-${HBASE_VERSION}/lib/
 
   echo "Building ${BUILD_IMAGE_VERSION} images ..."
   cd $BASE_DIR && docker build -t wl4g/hbase:${BUILD_IMAGE_VERSION} . &
