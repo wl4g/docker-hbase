@@ -19,6 +19,7 @@ export BASE_DIR=$(cd "`dirname $0`"/; pwd)
 export HBASE_VERSION="2.1.0"
 export SHORT_PHOENIX_VERSION="5.1.1"
 export LONG_PHOENIX_VERSION="hbase-2.1-${SHORT_PHOENIX_VERSION}"
+export BUILD_IMAGE_VERSION="hbase-${HBASE_VERSION}-phoenix-${SHORT_PHOENIX_VERSION}"
 
 function print_help() {
   echo $"
@@ -60,26 +61,24 @@ function build_images() {
   echo "Copying phoenix-${LONG_PHOENIX_VERSION}-bin/phoenix-server-${LONG_PHOENIX_VERSION}.jar to hbase-${HBASE_VERSION}/lib/ ..."
   cd ${BASE_DIR}/materials/ && cp phoenix-${LONG_PHOENIX_VERSION}-bin/phoenix-server-${LONG_PHOENIX_VERSION}.jar hbase-${HBASE_VERSION}/lib/
 
-  local build_version="hbase-${HBASE_VERSION}-phoenix-${SHORT_PHOENIX_VERSION}"
-  echo "Building ${build_version} images ..."
-  cd $BASE_DIR && docker build -t wl4g/hbase:${build_version} . &
+  echo "Building ${BUILD_IMAGE_VERSION} images ..."
+  cd $BASE_DIR && docker build -t wl4g/hbase:${BUILD_IMAGE_VERSION} . &
 
   wait
 }
 
 function push_images() {
-  local build_version=$(git branch | grep '*' | sed -E 's/\* \(HEAD detached at |\)|\* //g')
   local repo_uri="$1"
   [ -z "$repo_uri" ] && repo_uri="docker.io/wl4g"
   ## FIX: Clean up suffix delimiters for normalization '/'
   repo_uri="$(echo $repo_uri | sed -E 's|/$||g')"
 
   echo "Tagging images to $repo_uri ..."
-  docker tag wl4g/hbase:${build_version} $repo_uri/hbase:${build_version}
-  docker tag wl4g/hbase:${build_version} $repo_uri/hbase:latest
+  docker tag wl4g/hbase:${BUILD_IMAGE_VERSION} $repo_uri/hbase:${BUILD_IMAGE_VERSION}
+  docker tag wl4g/hbase:${BUILD_IMAGE_VERSION} $repo_uri/hbase:latest
 
-  echo "Pushing images of ${build_version}@$repo_uri ..."
-  docker push $repo_uri/hbase:${build_version} &
+  echo "Pushing images of ${BUILD_IMAGE_VERSION}@$repo_uri ..."
+  docker push $repo_uri/hbase:${BUILD_IMAGE_VERSION} &
 
   echo "Pushing images of latest@$repo_uri ..."
   docker push $repo_uri/hbase &
