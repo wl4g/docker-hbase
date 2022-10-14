@@ -23,7 +23,7 @@ COPY materials/hbase-* /opt/apps/ecm/hbase/
 RUN echo "http://mirrors.aliyun.com/alpine/v3.9/main" > /etc/apk/repositories \
 && echo "http://mirrors.aliyun.com/alpine/v3.9/community" >> /etc/apk/repositories \
 && apk update upgrade \
-&& apk add --no-cache procps unzip curl bash bind-tools busybox-extras jq ethtool ip6tables iptables awall \
+&& apk add --no-cache procps unzip curl bash bind-tools busybox-extras ethtool ip6tables iptables awall jruby \
 && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 && for f in $(ls /opt/apps/ecm/hbase/bin/); do ln -sf /opt/apps/ecm/hbase/bin/$f /bin/$f; done \
 && echo "Asia/Shanghai" > /etc/timezone
