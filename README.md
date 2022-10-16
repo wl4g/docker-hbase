@@ -17,18 +17,33 @@ wl4g/hbase:hbase-2.1.0-phoenix-5.1.1 \
 /bin/sh -c "hbase-daemon.sh start master; tail -f /dev/null"
 ```
 
-- Run phoenix SQL client
+- Run phoenix SQL client and testing
 
 ```bash
 docker exec -it hbase1 bash
 
-# start sql cli
+# start sql cli.
 sqlline.py
 
-# list tables
+# list all tables,
 !tables
 
-# exit
+# Create test table,
+create schema if not exists "test";
+create table if not exists "test"."t_test1" (
+    "ROW" VARCHAR PRIMARY KEY,
+    "info"."name" VARCHAR(20),
+    "info"."age" VARCHAR(20)
+) COLUMN_ENCODED_BYTES=0;
+
+# Display table struct.
+!describe "test"."t_test1";
+
+# Upsert test data.
+upsert into "test"."t_test1" (name, age) values ("jack01", 99);
+
+select * from "test"."t_test1" limit 10;
+
 !quit
 ```
 

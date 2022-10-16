@@ -57,6 +57,10 @@ function build_images() {
     cd ${BASE_DIR}/materials/ && tar -xvf phoenix-${LONG_PHOENIX_VERSION}-bin.tar.gz
   fi
 
+  # Add hbase-site.xml configure
+  cp ${BASE_DIR}/hbase-site.xml $hbaseDir/conf/
+  cp ${BASE_DIR}/hbase-site.xml $phoenixDir/bin/
+
   # Notice: Use link in Dockerfile.
   # echo "Copying phoenix-${LONG_PHOENIX_VERSION}-bin/phoenix-server-${LONG_PHOENIX_VERSION}.jar to hbase-${HBASE_VERSION}/lib/ ..."
   # cd ${BASE_DIR}/materials/ && cp phoenix-${LONG_PHOENIX_VERSION}-bin/phoenix-server-${LONG_PHOENIX_VERSION}.jar hbase-${HBASE_VERSION}/lib/
