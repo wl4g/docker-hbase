@@ -33,14 +33,14 @@ create schema if not exists "test";
 create table if not exists "test"."t_test1" (
     "ROW" VARCHAR PRIMARY KEY,
     "info"."name" VARCHAR(20),
-    "info"."age" VARCHAR(20)
+    "info"."age" INTEGER
 ) COLUMN_ENCODED_BYTES=0;
 
 # Display table struct.
 !describe "test"."t_test1";
 
 # Upsert test data.
-upsert into "test"."t_test1" (name, age) values ("jack01", 99);
+upsert into "test"."t_test1" ("ROW", "name", "age") values ('20220203232359001,test', 'jack01', 99);
 
 select * from "test"."t_test1" limit 10;
 
